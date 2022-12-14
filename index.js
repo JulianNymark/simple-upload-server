@@ -6,10 +6,12 @@ var http = require('http');
 var https = require('https');
 var express = require('express');
 var multer = require('multer');
-var html = require('./tpl');
-var pkg = require('./package.json');
+var qrcode = require('qrcode-terminal');
 var serveIndex = require('serve-index');
 var argv = require('minimist')(process.argv.slice(2));
+
+var html = require('./tpl');
+var pkg = require('./package.json');
 var app = express();
 
 var ifaces = os.networkInterfaces();
@@ -110,9 +112,13 @@ else {
     Object.keys(ifaces).forEach(i => {
       const iface = ifaces[i]
       iface.map(detail => {
-        const { family, address } = detail
+        const { family, address, internal } = detail
         if (family === 'IPv4') {
-          console.log(`\thttp://${address}:${default_port}`)
+          let url = `\thttp://${address}:${default_port}`;
+          console.log(url)
+          if (!internal) {
+            qrcode.generate(url);
+          }
         }
       })
     })
