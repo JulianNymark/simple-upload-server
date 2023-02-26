@@ -2,7 +2,7 @@
 
 Simple file server with multipart/form-data and large file support
 
-### Install 
+### Install
 
 ```bash
 npm install -g simple-upload-server
@@ -18,11 +18,12 @@ File upload server v1.1.5
 usage: simple-upload-server [options]
 
 options:
-  -p --port    Port number (default: 5000)
-  -f --folder  Folder to upload files (default: files)
-  -S --tls     Enable TLS / HTTPS
-  -C --cert    Server certificate file
-  -K --key     Private key file
-  -h --help    Print this list and exit
-  -v --version Print the current version
+      -p --port        Port number (default: 5000)
+      -q --qr-disable  Disable QR terminal output (default: on)
+      -f --folder      Folder to upload files (default: files)
+      -S --tls         Enable TLS / HTTPS
+      -C --cert        Server certificate file
+      -K --key         Private key file
+      -h --help        Print this list and exit
+      -v --version     Print the current version
 ```

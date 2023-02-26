@@ -17,6 +17,7 @@ var app = express();
 var ifaces = os.networkInterfaces();
 var default_host = "0.0.0.0";
 var default_port = argv.p || argv.port || 5000;
+var qr_disabled = argv.q ?? argv['qr-disable'] ?? false;
 var default_folder = argv.f || argv.folder || 'files';
 var version = argv.v || argv.version;
 var tls_enabled = argv.S || argv.tls;
@@ -24,19 +25,22 @@ var cert_file = argv.C || argv.cert;
 var key_file = argv.K || argv.key;
 var help = argv.h || argv.help;
 
+console.log(argv);
+
 function _usage() {
   console.log([
     '', 'File upload server v' + pkg.version,
     '', 'usage: upload-server [options]',
     '',
     'options:',
-    '  -p --port    Port number (default: 5000)',
-    '  -f --folder  Folder to upload files (default: files)',
-    '  -S --tls     Enable TLS / HTTPS',
-    '  -C --cert    Server certificate file',
-    '  -K --key     Private key file',
-    '  -h --help    Print this list and exit',
-    '  -v --version Print the current version',
+    '  -p --port        Port number (default: 5000)',
+    '  -q --qr-disable  Disable QR terminal output (default: on)',
+    '  -f --folder      Folder to upload files (default: files)',
+    '  -S --tls         Enable TLS / HTTPS',
+    '  -C --cert        Server certificate file',
+    '  -K --key         Private key file',
+    '  -h --help        Print this list and exit',
+    '  -v --version     Print the current version',
     ''
   ].join('\n'));
   process.exit();
@@ -116,7 +120,7 @@ else {
         if (family === 'IPv4') {
           let url = `\thttp://${address}:${default_port}`;
           console.log(url)
-          if (!internal) {
+          if (!internal && !qr_disabled) {
             qrcode.generate(url);
           }
         }
